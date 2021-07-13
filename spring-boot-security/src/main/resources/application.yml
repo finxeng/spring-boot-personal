@@ -4,10 +4,14 @@ spring:
   application:
     name: spring-boot-security
   datasource:
-    url: jdbc:mysql://localhost:3306/abtest?characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/spring-boot-security?serverTimezone=UTC&characterEncoding=utf-8&useSSL=true
     username: root
     password: root
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
       show-sql: true
+    type: com.alibaba.druid.pool.DruidDataSource
 debug: true
+
+jwt:
+  secret: javainuse
