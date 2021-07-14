@@ -5,6 +5,9 @@ import com.lovejobs.enums.ErrorCode;
 import com.lovejobs.service.JwtUserDetailsService;
 import com.lovejobs.utils.ResultUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,12 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
-                response.setContentType("application/json;charset=utf-8");
-                response.getWriter().print(JSONObject.toJSONString(ResultUtil.failWithMsg(ErrorCode.E_TOKEN_EXPIRED)));
-                return;
-            } catch (ExpiredJwtException e) {
+            } catch (ExpiredJwtException|UnsupportedJwtException| MalformedJwtException| SignatureException |IllegalArgumentException e) {
                 System.out.println("JWT Token has expired");
                 response.setContentType("application/json;charset=utf-8");
                 response.getWriter().print(JSONObject.toJSONString(ResultUtil.failWithMsg(ErrorCode.E_TOKEN_EXPIRED)));
