@@ -15,8 +15,6 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("user_name")
-    private String userName;
-    @JsonProperty("password")
+    private String username;
     private String password;
 }
