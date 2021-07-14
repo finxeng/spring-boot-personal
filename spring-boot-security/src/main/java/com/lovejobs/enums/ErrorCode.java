@@ -7,7 +7,7 @@ public enum ErrorCode {
     SUCCESS(200, "success"),
     E_INVALID_PARAM(400, "param invalid"),
     E_TOKEN_EXPIRED(401, "token expired"),
-    E_USER_NOT_FOUND(402, "user not found"),
+    E_USER_NOT_FOUND(402, "Wrong user name or password"),
     E_SWAP_LOGIN(403, "swap login"),
     E_HYSTRIX_FALLBACK(404, "hystrix fallback"),
     E_AUTH_EXCEPTION(410, "auth exception"),
