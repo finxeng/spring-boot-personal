@@ -8,12 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+@Service
 public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -21,6 +27,6 @@ public class JwtUserDetailsService implements UserDetailsService {
         if(ObjectUtils.isEmpty(byUsername)){
             throw new UsernameNotFoundException(ErrorCode.E_USER_NOT_FOUND.getMsg());
         }
-        return new JwtUserDetailsDTO(byUsername.getId(),byUsername.getUsername(),byUsername.getPassword());
+        return new JwtUserDetailsDTO(byUsername.getId(),byUsername.getUsername(),bCryptPasswordEncoder.encode(byUsername.getPassword()));
     }
 }
