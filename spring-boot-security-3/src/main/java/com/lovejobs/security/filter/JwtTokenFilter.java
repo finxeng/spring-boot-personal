@@ -46,7 +46,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return;
             }
             username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            JwtUserDetailsDTO jwtUserDetailsDTO = new JwtUserDetailsDTO(null,username,null);
+            JwtUserDetailsDTO jwtUserDetailsDTO = new JwtUserDetailsDTO(null,username,null,false);
             if(!jwtTokenUtil.validateToken(jwtToken,jwtUserDetailsDTO)){
                 response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().write(JSONObject.toJSONString(ResultUtil.failWithMsg(ErrorCode.E_TOKEN_EXCEPTION)));

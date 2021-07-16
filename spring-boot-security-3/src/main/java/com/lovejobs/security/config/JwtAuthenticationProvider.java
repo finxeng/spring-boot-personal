@@ -3,11 +3,15 @@ package com.lovejobs.security.config;
 import com.lovejobs.security.dto.JwtLoginTokenDTO;
 import com.lovejobs.security.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +37,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String presentedPassword = authentication.getCredentials().toString();
         if (!bCryptPasswordEncoder.matches(presentedPassword, userDetails.getPassword())) {
             throw new BadCredentialsException("Bad credentials");
+        }
+
+        if(!userDetails.isEnabled()){
+            throw new DisabledException("Account disable");
         }
 
         JwtLoginTokenDTO authenticatedToken = new JwtLoginTokenDTO(userDetails, jwtLoginToken.getCredentials(), userDetails.getAuthorities());

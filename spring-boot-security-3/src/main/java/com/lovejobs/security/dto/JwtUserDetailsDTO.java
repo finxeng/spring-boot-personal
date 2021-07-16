@@ -11,11 +11,13 @@ public class JwtUserDetailsDTO implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private Boolean enabled;
 
-    public JwtUserDetailsDTO(Long id, String username, String password) {
+    public JwtUserDetailsDTO(Long id, String username, String password, Boolean enabled) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.enabled = enabled;
     }
 
     @Override
@@ -50,6 +52,6 @@ public class JwtUserDetailsDTO implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 }

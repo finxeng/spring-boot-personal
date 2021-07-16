@@ -23,10 +23,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserEntity byUsername = userRepository.findByUsername(s);
+        UserEntity byUsername = userRepository.findByUserName(s);
         if(ObjectUtils.isEmpty(byUsername)){
-            throw new UsernameNotFoundException(ErrorCode.E_USER_NOT_FOUND.getMsg());
+            throw new UsernameNotFoundException(ErrorCode.E_ACCOUNT_NOT_FOUND.getMsg());
         }
-        return new JwtUserDetailsDTO(byUsername.getId(),byUsername.getUsername(),bCryptPasswordEncoder.encode(byUsername.getPassword()));
+        return new JwtUserDetailsDTO(byUsername.getId(),byUsername.getUserName(),bCryptPasswordEncoder.encode(byUsername.getUserPwd()),byUsername.getUserEnabled());
     }
 }

@@ -43,7 +43,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
             ObjectMapper objectMapper = new ObjectMapper();
             jsonObject = objectMapper.readValue(inputStream, JSONObject.class);
         } catch (Exception e) {
-            throw new UsernameNotFoundException(ErrorCode.E_USER_NOT_FOUND.getMsg());
+            throw new UsernameNotFoundException(ErrorCode.E_WRONG_USERNAME_PASSWORD.getMsg());
         }
         String userName = jsonObject.getString("username");
         String password = jsonObject.getString("password");
