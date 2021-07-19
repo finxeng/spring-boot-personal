@@ -1,9 +1,13 @@
 package com.lovejobs.security.dto;
 
+import com.lovejobs.security.entity.SystemRoleEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class JwtUserDetailsDTO implements UserDetails {
     private static final long serialVersionUID = -7310687772601758166L;
@@ -11,18 +15,22 @@ public class JwtUserDetailsDTO implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private final List<GrantedAuthority> authorityList;
+
     private Boolean enabled;
 
-    public JwtUserDetailsDTO(Long id, String username, String password, Boolean enabled) {
+
+    public JwtUserDetailsDTO(Long id, String username, String password, List<SystemRoleEntity> roleList, Boolean enabled) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+        this.authorityList = roleList.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorityList;
     }
 
     @Override

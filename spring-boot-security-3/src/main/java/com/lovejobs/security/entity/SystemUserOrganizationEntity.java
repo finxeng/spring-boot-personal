@@ -10,16 +10,16 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Data
-@Entity(name = "role")
-public class RoleEntity {
+@Entity(name = "user_organization")
+public class SystemUserOrganizationEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("role_code")
-    private String roleCode;
-    @JsonProperty("role_name")
-    private String roleName;
+    @JsonProperty("user_id")
+    private Long userId;
+    @JsonProperty("org_id")
+    private Long orgId;
     @JsonProperty("create_time")
     private Date createTime;
     @JsonProperty("update_time")

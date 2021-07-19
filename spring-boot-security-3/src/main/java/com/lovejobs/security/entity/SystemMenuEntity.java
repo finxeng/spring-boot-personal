@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Data
 @Entity(name = "menu")
-public class MenuEntity {
+public class SystemMenuEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

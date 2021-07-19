@@ -30,9 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
-    private PasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
     private JwtLoginFilter jwtLoginFilter;
 
     @Autowired
@@ -73,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override

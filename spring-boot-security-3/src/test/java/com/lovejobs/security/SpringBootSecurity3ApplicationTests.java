@@ -1,8 +1,8 @@
 package com.lovejobs.security;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lovejobs.security.dao.UserRepository;
-import com.lovejobs.security.entity.UserEntity;
+import com.lovejobs.security.dao.SystemUserRepository;
+import com.lovejobs.security.entity.SystemUserEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import java.util.List;
 class SpringBootSecurity3ApplicationTests {
 
     @Autowired
-    UserRepository userRepository;
+    SystemUserRepository systemUserRepository;
 
     @Test
     void contextLoads() {
-        List<UserEntity> all = userRepository.findAll();
+        List<SystemUserEntity> all = systemUserRepository.findAll();
         System.out.println(JSONObject.toJSONString(all));
 
     }

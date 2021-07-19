@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity(name = "role_menu")
-public class RoleMenuEntity {
+public class SystemRoleMenuEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

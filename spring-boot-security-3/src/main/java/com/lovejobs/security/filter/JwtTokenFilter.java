@@ -4,11 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.lovejobs.security.dto.JwtLoginTokenDTO;
 import com.lovejobs.security.dto.JwtUserDetailsDTO;
 import com.lovejobs.security.enums.ErrorCode;
+import com.lovejobs.security.service.JwtUserDetailsService;
 import com.lovejobs.security.utils.JwtTokenUtil;
 import com.lovejobs.security.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -26,6 +28,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private JwtUserDetailsService jwtUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -46,15 +51,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return;
             }
             username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            JwtUserDetailsDTO jwtUserDetailsDTO = new JwtUserDetailsDTO(null,username,null,false);
+            JwtUserDetailsDTO jwtUserDetailsDTO = new JwtUserDetailsDTO(null,username,null, new ArrayList<>(), false);
             if(!jwtTokenUtil.validateToken(jwtToken,jwtUserDetailsDTO)){
                 response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().write(JSONObject.toJSONString(ResultUtil.failWithMsg(ErrorCode.E_TOKEN_EXCEPTION)));
                 return;
             }
-            JwtLoginTokenDTO jwtLoginToken = new JwtLoginTokenDTO(username, "", new ArrayList<>());
-            jwtLoginToken.setDetails(new WebAuthenticationDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(jwtLoginToken);
+
+            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+            JwtLoginTokenDTO authenticatedToken = new JwtLoginTokenDTO(userDetails, "", userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticatedToken);
             filterChain.doFilter(request, response);
         }catch (Exception e){
             throw new BadCredentialsException(ErrorCode.E_TOKEN_EXCEPTION.getMsg());

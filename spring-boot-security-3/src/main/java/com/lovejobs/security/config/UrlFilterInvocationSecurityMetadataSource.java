@@ -14,11 +14,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
         System.out.println("UrlFilterInvocationSecurityMetadataSource");
-        if(requestUrl.equals("/user")){
-            return SecurityConfig.createList();
-        }else{
-            return SecurityConfig.createList("ADMIN");
-        }
+        return SecurityConfig.createList("ADMIN");
     }
 
     @Override

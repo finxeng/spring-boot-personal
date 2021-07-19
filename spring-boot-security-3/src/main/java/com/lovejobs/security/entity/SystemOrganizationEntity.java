@@ -9,22 +9,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-
 @Data
-@Entity(name = "user")
-public class UserEntity {
+@Entity(name = "organization")
+public class SystemOrganizationEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("user_name")
-    private String userName;
-    @JsonProperty("user_pwd")
-    private String userPwd;
-    @JsonProperty("user_email")
-    private String userEmail;
-    @JsonProperty("user_enabled")
-    private Boolean userEnabled;
+    @JsonProperty("parent_id")
+    private Long parentId;
+    @JsonProperty("org_code")
+    private String orgCode;
+    @JsonProperty("org_name")
+    private String orgName;
     @JsonProperty("create_time")
     private Date createTime;
     @JsonProperty("update_time")
