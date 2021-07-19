@@ -48,7 +48,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         }
         String userName = jsonObject.getString("username");
         String password = jsonObject.getString("password");
-        JwtLoginTokenDTO jwtLoginTokenDTO = new JwtLoginTokenDTO(userName,password,new ArrayList<>());
+        JwtLoginTokenDTO jwtLoginTokenDTO = new JwtLoginTokenDTO(userName,password);
         jwtLoginTokenDTO.setDetails(new WebAuthenticationDetails(request));
         Authentication authenticatedToken = this.getAuthenticationManager().authenticate(jwtLoginTokenDTO);
         return authenticatedToken;
