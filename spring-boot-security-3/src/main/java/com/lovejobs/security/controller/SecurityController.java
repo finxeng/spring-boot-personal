@@ -3,6 +3,8 @@ package com.lovejobs.security.controller;
 import com.lovejobs.security.common.Result;
 import com.lovejobs.security.utils.ResultUtil;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,5 +28,6 @@ public class SecurityController {
     public Result statistics_cdn() {
         return ResultUtil.ok("statistics/cdn");
     }
+
 
 }

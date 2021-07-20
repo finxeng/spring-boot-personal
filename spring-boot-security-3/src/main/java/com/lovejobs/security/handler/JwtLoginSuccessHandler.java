@@ -1,6 +1,7 @@
 package com.lovejobs.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lovejobs.security.common.SecurityConstant;
 import com.lovejobs.security.dto.JwtUserDetailsDTO;
 import com.lovejobs.security.utils.JwtTokenUtil;
 import com.lovejobs.security.utils.ResultUtil;
@@ -22,7 +23,7 @@ public class JwtLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType(SecurityConstant.APPLICATION_JSON_UTF8_VALUE);
         JwtUserDetailsDTO jwtUserDetailsDTO = (JwtUserDetailsDTO) authentication.getPrincipal();
         response.getWriter().write(JSONObject.toJSONString(ResultUtil.ok(jwtTokenUtil.generateToken(jwtUserDetailsDTO))));
     }

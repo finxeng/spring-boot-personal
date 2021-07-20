@@ -1,6 +1,7 @@
 package com.lovejobs.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lovejobs.security.common.SecurityConstant;
 import com.lovejobs.security.enums.ErrorCode;
 import com.lovejobs.security.utils.ResultUtil;
 import org.springframework.security.authentication.DisabledException;
@@ -19,7 +20,7 @@ public class JwtLoginFailureHandler extends SimpleUrlAuthenticationFailureHandle
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         System.out.println(exception);
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType(SecurityConstant.APPLICATION_JSON_UTF8_VALUE);
         if(exception instanceof DisabledException){
             response.getWriter().write(JSONObject.toJSONString(ResultUtil.failWithMsg(ErrorCode.E_ACCOUNT_DISABLE)));
         }else if(exception instanceof UsernameNotFoundException){

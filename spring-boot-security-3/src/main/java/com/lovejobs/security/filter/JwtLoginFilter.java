@@ -4,12 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovejobs.security.dto.JwtLoginTokenDTO;
 import com.lovejobs.security.enums.ErrorCode;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -19,12 +18,9 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
 
 @Component
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
-
 
     @Autowired
     @Override
@@ -33,7 +29,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     public JwtLoginFilter() {
-        super(new AntPathRequestMatcher("/authenticate", "POST"));
+        super(new AntPathRequestMatcher("/authenticate", HttpMethod.POST.name()));
     }
 
     @Override
