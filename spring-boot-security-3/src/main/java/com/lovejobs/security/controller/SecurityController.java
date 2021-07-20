@@ -18,4 +18,13 @@ public class SecurityController {
         return ResultUtil.ok("Hello admin");
     }
 
+    @GetMapping("statistics/domain")
+    public Result statistics_domain() {
+        return ResultUtil.ok("statistics/domain");
+    }
+    @GetMapping("statistics/cdn")
+    public Result statistics_cdn() {
+        return ResultUtil.ok("statistics/cdn");
+    }
+
 }

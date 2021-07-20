@@ -1,6 +1,7 @@
 package com.lovejobs.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lovejobs.security.enums.ErrorCode;
 import com.lovejobs.security.utils.ResultUtil;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -16,6 +17,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSONObject.toJSONString(ResultUtil.ok("JwtAccessDeniedHandler")));
+        response.getWriter().write(JSONObject.toJSONString(ResultUtil.failWithMsg(ErrorCode.E_AUTH_EXCEPTION)));
     }
 }

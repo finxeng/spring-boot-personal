@@ -25,7 +25,7 @@ public class JwtUserDetailsDTO implements UserDetails {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-        this.authorityList = roleList.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+        this.authorityList = roleList.stream().map(role -> new SimpleGrantedAuthority(role.getRoleCode())).collect(Collectors.toList());
     }
 
     @Override
