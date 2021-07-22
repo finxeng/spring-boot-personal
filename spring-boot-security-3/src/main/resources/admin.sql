@@ -1,85 +1,98 @@
 create table if not exists menu
 (
-    id int auto_increment comment '自增id'
-        primary key,
-    menu_name varchar(255) default '' not null comment '菜单名称',
-    parent_id int default 0 not null comment '父类id',
-    menu_url varchar(255) null,
-    menu_path varchar(255) null,
-    enabled smallint default 1 not null comment '是否启用 1 启用，0 禁用',
-    create_time datetime default CURRENT_TIMESTAMP null comment '创建时间',
-    update_time datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
-)
-    comment '机构信息表';
+    `id` bigint(20) unsigned auto_increment comment '自增id',
+    `menu_name` varchar(255) default '' not null comment '菜单名称',
+    `parent_id` bigint(20) unsigned default 0 not null comment '父类id',
+    `menu_url` varchar(255) default '' not null,
+    `menu_path` varchar(255) default '' not null,
+    `status` tinyint(1) default 1 not null comment '是否启用 1 启用，0 禁用',
+    `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '菜单信息表';
+
+create table if not exists permission
+(
+    `id` bigint(20) unsigned auto_increment comment '自增id',
+    `menu_id` bigint(20) unsigned not null comment '菜单id',
+    `url` varchar(255) not null,
+    `status` tinyint(1) default 1 not null comment '是否启用 1 启用，0 禁用',
+    `anonymous` tinyint(1) default 0 not null comment '登陆用户即可访问 1 无需授权登陆访问，0 需要授权角色才可以访问',
+    `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '菜单信息表';
+
+
+create table if not exists role_permission  (
+    `id` bigint(20) unsigned auto_increment comment '自增id',
+    `role_id` bigint(20) unsigned not null comment '角色id',
+    `permission_id` bigint(20) unsigned not null comment '权限id',
+    `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '角色权限关系表';
 
 create table if not exists organization
 (
-    id int auto_increment comment '自增id'
-        primary key,
-    parent_id int default 0 null comment '父机构id',
-    org_code varchar(255) default '' not null comment '机构编码',
-    org_name varchar(255) default '' not null comment '机构名称',
-    create_time datetime default CURRENT_TIMESTAMP null comment '创建时间',
-    update_time datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
-)
-    comment '机构信息表';
+    `id` bigint(20) unsigned auto_increment comment '自增id',
+    `parent_id` bigint(20) unsigned not null comment '父机构id',
+    `org_code` varchar(255) default '' not null comment '机构编码',
+    `org_name` varchar(255) default '' not null comment '机构名称',
+    `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '机构信息表';
 
 create table if not exists role
 (
-    id int auto_increment comment '自增id'
-        primary key,
-    role_code varchar(255) default '' not null comment '角色编码',
-    role_name varchar(255) default '' not null comment '角色名',
-    create_time datetime default CURRENT_TIMESTAMP null comment '创建时间',
-    update_time datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
-)
-    comment '角色信息表';
+    `id` bigint(20) unsigned auto_increment comment '自增id',
+    `role_code` varchar(255) default '' not null comment '角色编码',
+    `role_name` varchar(255) default '' not null comment '角色名',
+    `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '角色信息表';
 
 create table if not exists role_menu
 (
-    id int auto_increment comment '自增id'
-        primary key,
-    role_id int not null comment '角色id',
-    menu_id int not null comment '菜单id',
-    create_time datetime default CURRENT_TIMESTAMP null comment '创建时间',
-    update_time datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
-)
-    comment '角色菜单关系表';
+    `id` bigint(20) unsigned auto_increment comment '自增id',
+    `role_id` bigint(20) unsigned not null comment '角色id',
+    `menu_id` bigint(20) unsigned not null comment '菜单id',
+    `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '角色菜单关系表';
 
 create table if not exists user
 (
-    id int auto_increment comment '自增id'
-        primary key,
-    user_name varchar(255) not null comment '登录用户名',
-    user_pwd varchar(255) not null comment '登录密码',
-    user_email varchar(255) not null comment '邮箱地址',
-    user_enabled smallint default 1 not null comment '是否启用： 1启用，0不启用',
-    create_time datetime default CURRENT_TIMESTAMP null comment '创建时间',
-    update_time datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
-)
-    comment '登陆用户信息表';
+    `id` bigint(20) unsigned auto_increment comment '自增id',
+    `user_name` varchar(255) not null comment '登录用户名',
+    `user_pwd` varchar(255) not null comment '登录密码',
+    `user_email` varchar(255) not null comment '邮箱地址',
+    `user_enabled` tinyint(1) default 1 not null comment '是否启用： 1启用，0不启用',
+    `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '登陆用户信息表';
 
 create table if not exists user_organization
 (
-    id int auto_increment comment '自增id'
-        primary key,
-    user_id int not null comment '用户id',
-    org_id int not null comment '机构id',
+    id bigint(20) unsigned auto_increment comment '自增id' primary key,
+    user_id bigint(20) unsigned not null comment '用户id',
+    org_id bigint(20) unsigned not null comment '机构id',
     create_time datetime default CURRENT_TIMESTAMP null comment '创建时间',
     update_time datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
-)
-    comment '用户结构关系表';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '用户机构关系表';
 
 create table if not exists user_role
 (
-    id int auto_increment comment '自增id'
-        primary key,
-    user_id int not null comment '用户id',
-    role_id int not null comment '角色id',
+    id bigint(20) unsigned auto_increment comment '自增id' primary key,
+    user_id bigint(20) unsigned not null comment '用户id',
+    role_id bigint(20) unsigned not null comment '角色id',
     create_time datetime default CURRENT_TIMESTAMP null comment '创建时间',
     update_time datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
-)
-    comment '用户角色关系表';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '用户角色关系表';
 
 
 INSERT INTO `spring-boot-security`.menu (id, menu_name, parent_id, menu_url, menu_path, enabled, create_time, update_time) VALUES (24, '系统配置', 0, null, '/system', 1, '2021-07-16 11:48:32', '2021-07-16 11:49:06');
