@@ -20,6 +20,10 @@ public class SystemRoleEntity {
     private String roleCode;
     @JsonProperty("role_name")
     private String roleName;
+    @JsonProperty("create_user")
+    private String createUser;
+    @JsonProperty("update_user")
+    private String updateUser;
     @JsonProperty("create_time")
     private Date createTime;
     @JsonProperty("update_time")

@@ -20,6 +20,10 @@ public class SystemUserOrganizationEntity {
     private Long userId;
     @JsonProperty("org_id")
     private Long orgId;
+    @JsonProperty("create_user")
+    private String createUser;
+    @JsonProperty("update_user")
+    private String updateUser;
     @JsonProperty("create_time")
     private Date createTime;
     @JsonProperty("update_time")

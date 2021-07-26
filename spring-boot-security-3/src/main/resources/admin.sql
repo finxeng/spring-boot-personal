@@ -10,14 +10,15 @@ create table if not exists menu
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
     `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_menu_name` (`menu_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '菜单信息表';
 
 create table if not exists permission
 (
     `id` bigint(20) unsigned auto_increment comment '自增id',
     `menu_id` bigint(20) unsigned not null comment '菜单id',
-    `url` varchar(255) not null,
+    `url` varchar(255) not null comment '需要接口url',
     `status` tinyint(1) default 1 not null comment '是否启用 1 启用，0 禁用',
     `anonymous` tinyint(1) default 0 not null comment '登陆用户即可访问 1 无需授权登陆访问，0 需要授权角色才可以访问',
     `create_user` varchar(32) default '' not null comment '创建人',
@@ -36,7 +37,8 @@ create table if not exists role_permission  (
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
     `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_role_permission`(`role_id`,`permission_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '角色权限关系表';
 
 create table if not exists organization
@@ -50,7 +52,8 @@ create table if not exists organization
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
     `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_org_code`(`org_code`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '机构信息表';
 
 create table if not exists role
@@ -62,7 +65,8 @@ create table if not exists role
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
     `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_role_code`(`role_code`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '角色信息表';
 
 create table if not exists role_menu
@@ -74,7 +78,8 @@ create table if not exists role_menu
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
     `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_role_menu`(`role_id`,`menu_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '角色菜单关系表';
 
 create table if not exists user
@@ -88,29 +93,33 @@ create table if not exists user
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
     `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_user_name`(`user_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '登陆用户信息表';
 
 create table if not exists user_organization
 (
-    `id` bigint(20) unsigned auto_increment comment '自增id' primary key,
+    `id` bigint(20) unsigned auto_increment comment '自增id',
     `user_id` bigint(20) unsigned not null comment '用户id',
     `org_id` bigint(20) unsigned not null comment '机构id',
     `create_user` varchar(32) default '' not null comment '创建人',
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
-    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_user_org`(`user_id`,`org_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '用户机构关系表';
 
 create table if not exists user_role
 (
-    `id` bigint(20) unsigned auto_increment comment '自增id' primary key,
+    `id` bigint(20) unsigned auto_increment comment '自增id',
     `user_id` bigint(20) unsigned not null comment '用户id',
     `role_id` bigint(20) unsigned not null comment '角色id',
     `create_user` varchar(32) default '' not null comment '创建人',
     `update_user` varchar(32) default '' not null comment '最后修改人',
     `create_time` datetime default CURRENT_TIMESTAMP null comment '创建时间',
-    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间'
+    `update_time` datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',
+    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '用户角色关系表';
 
 INSERT INTO `spring-boot-security`.menu (id, menu_name, parent_id, menu_url, menu_path, status, create_user, update_user, create_time, update_time) VALUES (1, '系统配置', 0, '', '/system', 1, 'fengxin', 'fengxin', '2021-07-16 11:48:32', '2021-07-23 16:58:09');

@@ -22,6 +22,12 @@ public class SystemOrganizationEntity {
     private String orgCode;
     @JsonProperty("org_name")
     private String orgName;
+    @JsonProperty("status")
+    private Boolean status;
+    @JsonProperty("create_user")
+    private String createUser;
+    @JsonProperty("update_user")
+    private String updateUser;
     @JsonProperty("create_time")
     private Date createTime;
     @JsonProperty("update_time")

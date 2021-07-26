@@ -9,24 +9,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-
+/**
+ * @author fengxin
+ * @version 1.0
+ * @description: TODO
+ * @date 2021/7/26 14:43
+ */
 @Data
-@Entity(name = "menu")
-public class SystemMenuEntity {
+@Entity(name = "permission")
+public class SystemPermissionEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("menu_name")
-    private String menuName;
-    @JsonProperty("parent_id")
-    private Long parentId;
-    @JsonProperty("menu_url")
-    private String menuUrl;
-    @JsonProperty("menu_path")
-    private String menuPath;
+    @JsonProperty("menu_id")
+    private Long menuId;
+    @JsonProperty("url")
+    private String url;
     @JsonProperty("status")
     private Boolean status;
+    @JsonProperty("anonymous")
+    private Boolean anonymous;
     @JsonProperty("create_user")
     private String createUser;
     @JsonProperty("update_user")

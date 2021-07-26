@@ -23,8 +23,12 @@ public class SystemUserEntity {
     private String userPwd;
     @JsonProperty("user_email")
     private String userEmail;
-    @JsonProperty("user_enabled")
-    private Boolean userEnabled;
+    @JsonProperty("status")
+    private Boolean status;
+    @JsonProperty("create_user")
+    private String createUser;
+    @JsonProperty("update_user")
+    private String updateUser;
     @JsonProperty("create_time")
     private Date createTime;
     @JsonProperty("update_time")
