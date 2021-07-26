@@ -36,6 +36,6 @@ public class JwtUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(ErrorCode.E_ACCOUNT_NOT_FOUND.getMsg());
         }
         List<SystemRoleEntity> roles = systemRoleRepository.queryRoleByUserId(byUsername.getId());
-        return new JwtUserDetailsDTO(byUsername.getId(),byUsername.getUserName(),bCryptPasswordEncoder.encode(byUsername.getUserPwd()), roles, byUsername.getUserEnabled());
+        return new JwtUserDetailsDTO(byUsername.getId(),byUsername.getUserName(),bCryptPasswordEncoder.encode(byUsername.getUserPwd()), roles, byUsername.getStatus());
     }
 }

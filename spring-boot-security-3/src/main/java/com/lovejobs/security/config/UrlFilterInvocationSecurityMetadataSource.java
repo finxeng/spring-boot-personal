@@ -1,7 +1,9 @@
 package com.lovejobs.security.config;
 
 import com.lovejobs.security.dao.SystemRoleMenuRepository;
+import com.lovejobs.security.dao.SystemRolePermissionRepository;
 import com.lovejobs.security.dto.SystemRoleMenuDTO;
+import com.lovejobs.security.dto.SystemRolePermissionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -9,8 +11,6 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,6 +21,9 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     @Autowired
     private SystemRoleMenuRepository systemRoleMenuRepository;
 
+    @Autowired
+    private SystemRolePermissionRepository systemRolePermissionRepository;
+
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
@@ -28,15 +31,15 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
         System.out.println(requestUrl);
         System.out.println("UrlFilterInvocationSecurityMetadataSource");
-        List<SystemRoleMenuDTO> allRoleMenu = systemRoleMenuRepository.findALLRoleMenu();
-        List<SystemRoleMenuDTO> roleList = new ArrayList<>();
-        allRoleMenu.forEach(roleMenu -> {
-            if (antPathMatcher.match(roleMenu.getMenuPath().concat(StringUtils.isEmpty(roleMenu.getMenuUrl())?"":roleMenu.getMenuUrl()), requestUrl)) {
-                roleList.add(roleMenu);
+        List<SystemRolePermissionDTO> allRolePermission = systemRolePermissionRepository.findAllRolePermission();
+        List<SystemRolePermissionDTO> roleList = new ArrayList<>();
+        allRolePermission.forEach(systemRolePermissionDTO -> {
+            if (antPathMatcher.match(systemRolePermissionDTO.getUrl(), requestUrl)) {
+                roleList.add(systemRolePermissionDTO);
             }
         });
         if(roleList.size()>0){
-            String[] roleCodes = roleList.stream().map(SystemRoleMenuDTO::getRoleCode).toArray(String[]::new);
+            String[] roleCodes = roleList.stream().map(SystemRolePermissionDTO::getRoleCode).toArray(String[]::new);
             return SecurityConfig.createList(roleCodes);
         }
         return SecurityConfig.createList();
